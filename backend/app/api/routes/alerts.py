@@ -135,8 +135,9 @@ async def create_alert(body: AlertCreateIn, db: DbSession, admin: AdminOnly) -> 
         channels=body.channels,
         ttl_minutes=body.ttl_minutes,
     )
+    reach: dict[str, int] = {}
     if body.broadcast:
-        await svc.broadcast_alert(db, alert)
+        reach = await svc.broadcast_alert(db, alert)
     await svc.audit(
         db,
         actor_id=admin.id,
@@ -144,10 +145,10 @@ async def create_alert(body: AlertCreateIn, db: DbSession, admin: AdminOnly) -> 
         action="alert.manual_broadcast" if body.broadcast else "alert.manual_draft",
         entity="alert",
         entity_id=alert.code,
-        detail={"level": body.level, "ward": body.ward_code, "district": body.district_code},
+        detail={"level": body.level, "ward": body.ward_code, "district": body.district_code, "reach": reach},
     )
     await db.commit()
-    return AlertOut.model_validate(alert)
+    return AlertOut.model_validate(alert).model_copy(update={"reach": reach})
 
 
 @router.post("/{code}/broadcast")

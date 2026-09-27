@@ -234,6 +234,10 @@ class AlertOut(ORMModel):
     acknowledged: int
     issued_at: datetime
     expires_at: datetime | None = None
+    #: Outcome of the most recent dispatch attempt, e.g. {"simulated": 120} or
+    #: {"suppressed": 60}. Without this a client cannot tell a deliberately
+    #: deduplicated duplicate broadcast from a delivery that silently failed.
+    reach: dict[str, int] = {}
 
 
 class AlertCreateIn(BaseModel):

@@ -60,7 +60,7 @@ Read the table's real message: **three of the top five cost almost nothing and a
 | Open-source licence | **Absent** — MIT is declared in the FastAPI metadata but no `LICENSE` file exists | Add MIT `LICENSE` at repo root. Cross-check every dependency licence in `submission/AI_AND_THIRD_PARTY_DISCLOSURE.md` §3 |
 | README that gets a stranger running | Must be written | Structure: one-paragraph what, the cold-boot command block, three screenshots, demo credentials, the honest-limits box, doc links |
 | Reproducible build from zero | **Verified working** — cold boot seeds 8 districts / 40 wards and runs the first sweep with no keys, no network, no config | Document the exact commands. This is already better than most entries |
-| Verification a reviewer can run | `backend/scripts/smoke_test.py` → **60/60** on a cold boot | Put the pass count and the command in the README and the submission text |
+| Verification a reviewer can run | `backend/scripts/smoke_test.py` → **61/61** on a cold boot | Put the pass count and the command in the README and the submission text |
 | Tests in CI | Partial — smoke script, thin `backend/tests/` | Add pytest unit coverage for the risk engine (curves, weight sum, uplift cap, transition logic) and GitHub Actions running both on every push |
 | `CONTRIBUTING.md`, issue templates, security note | Absent | Write them; also add a good-first-issue list. Reviewers click these |
 | Docs beyond the README | Swagger at `/docs`, `GET /api/v1/risk/model` as a published methodology page | Link them explicitly; add a short `docs/ARCHITECTURE.md` |

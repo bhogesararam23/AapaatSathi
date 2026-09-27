@@ -84,7 +84,7 @@ Two columns. **Built** versus **not claimed.**
 |---|---|
 | 8 districts, 40 real wards, 210,200 modelled residents | Any real-world deployment |
 | 54 API operations, 3 surfaces, live WebSocket map | Any resident has ever been warned |
-| End-to-end verification: 60/60 checks on a cold boot | A trained model or an accuracy figure |
+| End-to-end verification: 61/61 checks on a cold boot | A trained model or an accuracy figure |
 | SMS + IVR in 3 languages with a delivery ledger | Government adoption or endorsement |
 
 Then the arithmetic of the ask: at roughly ₹1–2 per SMS, warning the 126,660 reachable phone numbers in our modelled pilot footprint costs about ₹1.5–2.5 lakh per alert round. One family moving uphill at 2 a.m. is worth more than that. *(Label these as indicative telecom tariffs, not a quotation.)*
@@ -278,7 +278,7 @@ Because a susceptibility map is a static annual product and the trigger is hourl
 The maintenance surface is deliberately small: one Python process, one database, no trained artefacts to drift, weights held as data. The parts needing expert upkeep — recalibration and threshold review — are exactly the parts we are asking a domain reviewer to own, publicly. Everything is MIT with a documented cold boot from zero configuration, and the disclosure document lists every third-party component. If we vanish tomorrow, someone else can run it, which is the point of open-sourcing it during a build challenge.
 
 **12. How many real residents have used it? What traction do you have?**
-Zero. No ward has been warned and no resident has filed a report. The verification we do have is engineering verification: a cold boot with no configuration, and 60 end-to-end checks passing, including the negative ones — a responder cannot trigger a sweep, an anonymous user cannot reopen a closed road, self-registration cannot mint an administrator, and a physically impossible rainfall injection is rejected. Traction after a hackathon would be an unearned number.
+Zero. No ward has been warned and no resident has filed a report. The verification we do have is engineering verification: a cold boot with no configuration, and 61 end-to-end checks passing, including the negative ones — a responder cannot trigger a sweep, an anonymous user cannot reopen a closed road, self-registration cannot mint an administrator, and a physically impossible rainfall injection is rejected. Traction after a hackathon would be an unearned number.
 
 **13. Did AI write this? (If asked.)**
 Yes, with AI assistance, disclosed by tool and by role in `AI_AND_THIRD_PARTY_DISCLOSURE.md`. The problem selection, the ten factors and their weights, the uplift cap, the escalation-on-transition rule, the simulated-versus-sent ledger and the seed footprint are ours, and we can defend each. We reviewed every line that shipped.

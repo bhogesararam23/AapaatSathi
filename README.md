@@ -10,7 +10,7 @@
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776ab)](backend/requirements.txt)
 [![TypeScript strict](https://img.shields.io/badge/TypeScript-strict%20%2B%20noUnused-3178c6)](frontend/tsconfig.json)
 [![tests: 276 passing](https://img.shields.io/badge/tests-276%20passing-16a34a)](backend/tests)
-[![e2e: 60 checks](https://img.shields.io/badge/end--to--end-60%20checks-16a34a)](backend/scripts/smoke_test.py)
+[![e2e: 61 checks](https://img.shields.io/badge/end--to--end-61%20checks-16a34a)](backend/scripts/smoke_test.py)
 
 </div>
 
@@ -118,7 +118,7 @@ All use the password `Aapaat@2026`:
 ```bash
 cd backend && pip install -r requirements-dev.txt
 python -m pytest -q                 # 276 tests
-python scripts/smoke_test.py        # 60 end-to-end checks against a running API
+python scripts/smoke_test.py        # 61 end-to-end checks against a running API
 cd ../frontend && npm run typecheck && npm run build
 ```
 

@@ -26,7 +26,7 @@ The plan front-loads this so nobody re-builds it. Verified on a cold boot, 27–
 | Auth + roles + audit trail | `core/security.py`, `core/deps.py`, `analytics/audit` |
 | Seed footprint: 8 districts, 40 real wards, 210,200 residents, 51 gauges, 18 shelters, 18 roads, 12 resources | `backend/app/seed.py` |
 | Live API: 54 operations, WebSocket fan-out on public/ops channels | `app.openapi()`, `/api/v1/ws` |
-| End-to-end verification | `backend/scripts/smoke_test.py` → **60/60** on a fresh database, zero configuration |
+| End-to-end verification | `backend/scripts/smoke_test.py` → **61/61** on a fresh database, zero configuration |
 | React/TS/Vite/Tailwind/MapLibre console: 9 routes, three surfaces, trilingual UI state, WebSocket live updates | `frontend/src/` (~4,400 lines of pages and components) |
 | Submission copy for the whole hackathon | the six documents in `submission/` |
 

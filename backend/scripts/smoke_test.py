@@ -218,8 +218,25 @@ def main() -> int:
     ok = r.status_code == 201
     alert_code = r.json().get("code", "") if ok else ""
     check("admin can author and broadcast an alert", ok, f"{r.status_code} {r.text[:90] if not ok else ''}")
-    check("broadcast accounts for reach", ok and r.json().get("delivered", 0) > 0,
-          f"delivered={r.json().get('delivered') if ok else 0}")
+
+    # The product contract is "reach people, or deliberately suppress a
+    # duplicate" — alert fatigue is a real failure mode, so a second broadcast of
+    # the same ward/level inside the dedupe window must NOT re-message everyone.
+    # `reach` makes the two outcomes distinguishable to the client, so this holds
+    # against both a fresh database and one where the startup sweep already fired.
+    delivered = r.json().get("delivered", 0) if ok else 0
+    reach = (r.json().get("reach") or {}) if ok else {}
+    suppressed = reach.get("suppressed", 0)
+    check(
+        "broadcast delivers, or is suppressed as a duplicate (alert-fatigue guard)",
+        ok and (delivered > 0 or suppressed > 0),
+        f"delivered={delivered} suppressed={suppressed} reach={reach}",
+    )
+    check(
+        "the API reports which of the two happened",
+        ok and bool(reach),
+        f"reach={reach}",
+    )
 
     if alert_code:
         r = api.post(f"/alerts/{alert_code}/acknowledge", headers=C)
