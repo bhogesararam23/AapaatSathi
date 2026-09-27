@@ -1,0 +1,219 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ base */
+@layer base {
+  :root {
+    color-scheme: light;
+    --paper: #f6f8fc;
+    --panel: #ffffff;
+    --line: #dde5f0;
+    --navy: #0b1220;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-[var(--paper)] text-ink-900 font-sans antialiased;
+    margin: 0;
+    /* Hill residents read this in daylight, on a cracked screen, while moving.
+       Contrast and hit-target size are the feature, not decoration. */
+    font-size: 16px;
+    text-rendering: optimizeLegibility;
+  }
+
+  :lang("hi"),
+  :lang("gar"),
+  .deva {
+    font-family: "Noto Sans Devanagari", "Segoe UI", system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-bold tracking-tight text-ink-950;
+    text-wrap: balance;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-risk-blue ring-offset-2 ring-offset-white;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ink-200 rounded-full border-2 border-solid border-transparent bg-clip-padding;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ink-300;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* -------------------------------------------------------------- components */
+@layer components {
+  .panel {
+    @apply bg-white rounded-2xl border border-[var(--line)] shadow-panel;
+  }
+
+  .panel-tight {
+    @apply bg-white rounded-xl border border-[var(--line)];
+  }
+
+  .card {
+    @apply panel p-4 sm:p-5;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-bold uppercase tracking-[0.14em] text-ink-400;
+  }
+
+  .stat-value {
+    @apply text-2xl sm:text-3xl font-extrabold tabular-nums text-ink-950 leading-none;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold
+           transition-all duration-150 select-none cursor-pointer
+           disabled:opacity-50 disabled:cursor-not-allowed active:scale-[.98];
+    min-height: 44px; /* glove- and sunlight-friendly */
+  }
+
+  .btn-primary {
+    @apply btn bg-ink-900 text-white hover:bg-ink-800 shadow-lg shadow-ink-900/15;
+  }
+
+  .btn-danger {
+    @apply btn bg-risk-red text-white hover:brightness-110 shadow-lg shadow-risk-red/25;
+  }
+
+  .btn-ghost {
+    @apply btn bg-transparent text-ink-700 hover:bg-ink-100 border border-[var(--line)];
+  }
+
+  .btn-soft {
+    @apply btn bg-ink-100 text-ink-900 hover:bg-ink-200;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs min-h-0 rounded-lg;
+  }
+
+  .input,
+  .select,
+  .textarea {
+    @apply w-full rounded-xl border border-[var(--line)] bg-white px-3.5 py-2.5 text-[15px] text-ink-900
+           placeholder:text-ink-400 transition
+           focus:border-risk-blue focus:ring-2 focus:ring-risk-blue/25 outline-none;
+  }
+  .textarea {
+    @apply min-h-[92px] resize-y leading-relaxed;
+  }
+  .label {
+    @apply block text-[13px] font-semibold text-ink-700 mb-1.5;
+  }
+  .hint {
+    @apply text-xs text-ink-400 mt-1 leading-snug;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide;
+  }
+
+  .pill {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-[var(--line)] bg-white px-2.5 py-1 text-xs font-medium text-ink-700;
+  }
+
+  .divider {
+    @apply border-t border-[var(--line)];
+  }
+
+  .table-row {
+    @apply grid items-center gap-3 px-4 py-3 border-b border-[var(--line)] hover:bg-ink-100/50 transition-colors;
+  }
+
+  /* Ops console surfaces are deliberately darker: a control room runs one. */
+  .ops {
+    @apply bg-ink-950 text-ink-100;
+    background-image: radial-gradient(1200px 600px at 12% -10%, rgba(14, 165, 233, 0.14), transparent 60%),
+      radial-gradient(900px 500px at 100% 0%, rgba(220, 38, 38, 0.12), transparent 55%);
+  }
+  .ops-panel {
+    @apply rounded-2xl border border-white/10 bg-white/[0.045] backdrop-blur-sm;
+  }
+  .ops-label {
+    @apply text-[11px] font-bold uppercase tracking-[0.14em] text-ink-400;
+  }
+  .ops-value {
+    @apply text-2xl font-extrabold tabular-nums text-white leading-none;
+  }
+
+  .skeleton {
+    @apply animate-pulse rounded-lg bg-ink-200/70;
+  }
+}
+
+@layer utilities {
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .grid-auto-fill {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+}
+
+/* ------------------------------------------------------------ map styling */
+.maplibregl-map {
+  font-family: inherit;
+}
+.maplibregl-ctrl-group {
+  border-radius: 10px !important;
+  overflow: hidden;
+  box-shadow: 0 4px 14px -6px rgba(11, 18, 32, 0.35) !important;
+}
+.maplibregl-popup-content {
+  @apply rounded-xl p-0 shadow-2xl;
+  font-family: inherit;
+}
+.maplibregl-popup-close-button {
+  @apply text-ink-400 text-lg px-1.5;
+}
+.ward-marker {
+  @apply relative cursor-pointer;
+}
+.ward-marker .dot {
+  @apply block w-4 h-4 rounded-full border-2 border-white shadow-md;
+}
+.ward-marker .ring {
+  @apply absolute inset-0 rounded-full;
+  animation: pulseRing 2.2s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+.ward-marker.critical .dot {
+  @apply w-5 h-5;
+}
