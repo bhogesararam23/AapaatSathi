@@ -14,13 +14,13 @@ export default defineConfig({
   server: {
     port: 5173,
     host: true,
-    // Proxying keeps the browser on one origin in development, so the demo
-    // needs no CORS tuning and the WebSocket upgrade just works.
+    // Proxy REST only. The WebSocket client connects straight to the API
+    // origin (see src/state/live.tsx): proxying the upgrade through Vite caused
+    // repeated ECONNABORTED errors and could wedge the tab.
     proxy: {
       "/api": {
         target: API_TARGET,
         changeOrigin: true,
-        ws: true,
       },
     },
   },

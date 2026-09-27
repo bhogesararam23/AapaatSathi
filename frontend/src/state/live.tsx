@@ -77,10 +77,24 @@ export function LiveProvider({
       setStatus("error");
       return;
     }
-    // Same-origin "/api" so the Vite proxy (and any reverse proxy) handles it.
+    // Deliberately NOT routed through the Vite dev proxy. Proxying the WebSocket
+    // upgrade produced repeated `ws proxy socket error: write ECONNABORTED` and
+    // left the browser tab wedged — fatal during a live demonstration. WebSockets
+    // are not subject to CORS, so in development we connect straight to the API
+    // origin; in production the app is served from the same host as the API.
     const proto = window.location.protocol === "https:" ? "wss" : "ws";
-    const absolute = import.meta.env.VITE_API_BASE as string | undefined;
-    const host = absolute ? absolute.replace(/^http/, "ws").replace(/\/$/, "") : `${proto}://${window.location.host}`;
+    const configured =
+      (import.meta.env.VITE_WS_BASE as string | undefined) ||
+      (import.meta.env.VITE_API_BASE as string | undefined);
+    let host: string;
+    if (configured) {
+      host = configured.replace(/^http/, "ws").replace(/\/+$/, "");
+    } else if (import.meta.env.DEV) {
+      const target = import.meta.env.VITE_PROXY_TARGET || "http://127.0.0.1:8000";
+      host = target.replace(/^http/, "ws").replace(/\/+$/, "");
+    } else {
+      host = `${proto}://${window.location.host}`;
+    }
     const url = `${host}${API_ROOT}/ws?channel=${channel}${token ? `&token=${encodeURIComponent(token)}` : ""}`;
 
     setStatus("connecting");

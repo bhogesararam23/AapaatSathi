@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import maplibregl from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 
@@ -122,7 +122,11 @@ export function RiskMap({
 }: Props) {
   const holder = useRef<HTMLDivElement | null>(null);
   const map = useRef<maplibregl.Map | null>(null);
-  const ready = useRef(false);
+  // Style load is asynchronous. Ward data often arrives first — especially when
+  // the API is on localhost and the tiles are not — so readiness has to be
+  // React state, not just a ref, or the marker effect runs once, bails out, and
+  // never re-runs. That presented as a blank map with data in the sidebar.
+  const [loaded, setLoaded] = useState(false);
   const wardMarkers = useRef(new Map<string, maplibregl.Marker>());
   const otherMarkers = useRef(new Map<string, maplibregl.Marker>());
   const selectRef = useRef(onSelectWard);
@@ -153,13 +157,17 @@ export function RiskMap({
       m.scrollZoom.disable();
       m.doubleClickZoom.disable();
     }
-    m.on("load", () => {
-      ready.current = true;
-    });
+    m.on("load", () => setLoaded(true));
+    // Safety net for a style that never finishes loading — hotel Wi-Fi in
+    // Dehradun, a blocked tile CDN. Ward risk comes from the local API, not the
+    // tile server, so markers should still appear even if basemap tiles do not.
+    const styleFallback = window.setTimeout(() => setLoaded(true), 2000);
     map.current = m;
 
     return () => {
-      ready.current = false;
+      // No setState here: the map is being torn down, and updating state from a
+      // cleanup on an unmounting tree invites a re-render loop in StrictMode.
+      window.clearTimeout(styleFallback);
       wardMarkers.current.clear();
       otherMarkers.current.clear();
       m.remove();
@@ -173,7 +181,7 @@ export function RiskMap({
   // ---- ward markers -------------------------------------------------------- //
   useEffect(() => {
     const m = map.current;
-    if (!m || !ready.current) return;
+    if (!m || !loaded) return;
 
     const seen = new Set<string>();
     wards.forEach((ward) => {
@@ -202,12 +210,12 @@ export function RiskMap({
         wardMarkers.current.delete(code);
       }
     });
-  }, [wards, selectedCode]);
+  }, [wards, selectedCode, loaded]);
 
   // ---- reports / shelters -------------------------------------------------- //
   useEffect(() => {
     const m = map.current;
-    if (!m || !ready.current) return;
+    if (!m || !loaded) return;
     const seen = new Set<string>();
     markers.forEach((mk) => {
       seen.add(mk.id);
@@ -245,12 +253,12 @@ export function RiskMap({
         otherMarkers.current.delete(id);
       }
     });
-  }, [markers]);
+  }, [markers, loaded]);
 
   // ---- selection fly-to ---------------------------------------------------- //
   useEffect(() => {
     const m = map.current;
-    if (!m || !ready.current || !selectedCode) return;
+    if (!m || !loaded || !selectedCode) return;
     const ward = wards.find((w) => w.code === selectedCode);
     if (!ward) return;
     m.flyTo({
@@ -259,11 +267,11 @@ export function RiskMap({
       duration: 900,
       essential: true,
     });
-  }, [selectedCode, wards]);
+  }, [selectedCode, wards, loaded]);
 
   useEffect(() => {
     const m = map.current;
-    if (!m || !ready.current || !focus) return;
+    if (!m || !loaded || !focus) return;
     m.fitBounds(
       [
         [focus[0], focus[1]],
@@ -271,7 +279,7 @@ export function RiskMap({
       ],
       { padding: 48, duration: 800 },
     );
-  }, [focus]);
+  }, [focus, loaded]);
 
   return (
     <div className={`relative overflow-hidden ${className}`} style={{ height }}>
