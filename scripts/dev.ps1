@@ -52,7 +52,7 @@ Write-Host "Starting web on http://localhost:$WebPort`n" -ForegroundColor Green
 $web = Start-Process -PassThru -WindowStyle Normal -FilePath "cmd.exe" `
     -ArgumentList "/c","npm run dev -- --port $WebPort" -WorkingDirectory $frontend
 
-Write-Host "Both running. Open http://localhost:$WebPort  ·  Ctrl+C here to stop." -ForegroundColor Yellow
+Write-Host "Both running. Open http://localhost:$WebPort  -  Ctrl+C here to stop." -ForegroundColor Yellow
 Write-Host "API smoke test:  $venvPy scripts\smoke_test.py --base http://127.0.0.1:$ApiPort"
 
 try {

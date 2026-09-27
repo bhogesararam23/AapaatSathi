@@ -87,6 +87,27 @@ Open **http://localhost:5173** · interactive API at **http://localhost:8000/doc
 Windows users can run both at once with
 `powershell -ExecutionPolicy Bypass -File .\scripts\dev.ps1`.
 
+<details>
+<summary><strong>If <code>import sqlalchemy.ext.asyncio</code> fails with "An Application Control policy has blocked this file"</strong></summary>
+
+<br/>
+
+That is Windows Smart App Control / WDAC refusing the freshly downloaded
+`_greenlet.pyd` that SQLAlchemy's async engine needs. It is a machine policy,
+not a project bug — the same package installed into your system Python is
+allowed. Repair the virtualenv by copying the trusted copy into it:
+
+```powershell
+# stop any running API first, then:
+powershell -ExecutionPolicy Bypass -File .\scripts\fix-greenlet.ps1
+```
+
+Alternatively create the venv outside a managed folder, or install greenlet from
+source. Nothing in the application changes either way.
+
+</details>
+
+
 ### Demo accounts
 
 All use the password `Aapaat@2026`:
