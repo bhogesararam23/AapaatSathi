@@ -1,0 +1,13 @@
+# Development-only dependencies (the app itself lives in requirements.txt).
+#
+# Install:  .venv/Scripts/python.exe -m pip install -r requirements-dev.txt
+# Run:      .venv/Scripts/python.exe -m pytest -q            (from ./backend)
+#
+# All three are pure-Python wheels on CPython/Windows. Nothing here is allowed to
+# pull in or rebuild a compiled package: on the maintainer's machine an
+# Application Control policy blocks freshly installed native extensions, which is
+# why ``greenlet`` is vendored into the venv by hand and must never be reinstalled
+# as a transitive side effect.
+pytest>=8.0,<10
+pytest-asyncio>=1.0,<2
+httpx>=0.27.0  # also an application dependency (Open-Meteo / provider adapters)
