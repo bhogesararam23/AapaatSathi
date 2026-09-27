@@ -1,0 +1,38 @@
+name: Data integration
+description: Replace seeded priors with an authoritative public dataset
+labels: [data-integration, good-first-issue]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The seeded terrain, lithology, NDVI and population figures in
+        `backend/app/seed.py` are realistic approximations, not surveyed data.
+        Replacing them is the highest-value contribution to this project.
+  - type: input
+    id: source
+    attributes:
+      label: Dataset and URL
+      description: GSI, Survey of India, Bhuvan/ISRO, IMD, Sentinel-2, State DGRRM, Census
+      placeholder: Bhuvan WMS — National Landslide Susceptibility Map
+    validations: { required: true }
+  - type: textarea
+    id: licence
+    attributes:
+      label: Licence and attribution
+      description: Terms of use, whether redistribution is allowed, attribution string required
+    validations: { required: true }
+  - type: textarea
+    id: fields
+    attributes:
+      label: Which model inputs it would replace
+      description: e.g. slope_deg, lithology, ndvi, fault_distance_km, population
+    validations: { required: true }
+  - type: textarea
+    id: access
+    attributes:
+      label: How to fetch it
+      description: Endpoint, tile URL, download size, auth requirements, rate limits
+  - type: textarea
+    id: caveats
+    attributes:
+      label: Known gaps or resolution limits

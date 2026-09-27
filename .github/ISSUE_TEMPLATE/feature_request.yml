@@ -1,0 +1,31 @@
+name: Feature or improvement
+description: Propose new behaviour, wording, design or coverage
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Who is this for and what can they not do today?
+      description: Name the person — a resident of Ranikhot, an SDM at 2am, a GRSO on a motorbike, a reviewer cloning the repo.
+    validations: { required: true }
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you add or change?
+    validations: { required: true }
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Which part
+      options: [citizen web, responder queue, district console, risk engine, notifications, localisation, accessibility, offline, docs]
+    validations: { required: true }
+  - type: textarea
+    id: harm
+    attributes:
+      label: Could this make a warning less trustworthy or harder to act on?
+      description: Think about false alarms, alert fatigue, and a user who cannot read the new wording.
+    validations: { required: true }
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope for a two-person team in one month

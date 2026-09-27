@@ -1,0 +1,47 @@
+name: Bug report
+description: Something is broken, misleading, or unreachable
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        If this bug could cause a warning to be missed, delayed, mislabelled or
+        overstated, treat it as urgent — say so in the first line and open a
+        security report as well if a resident could be harmed by it.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      placeholder: A red ward showed as yellow in the console.
+    validations: { required: true }
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected instead
+    validations: { required: true }
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Start the API with default settings
+        2. POST /api/v1/risk/scenario with ...
+        3. Open /console and select the ward
+    validations: { required: true }
+  - type: dropdown
+    id: surface
+    attributes:
+      label: Which part
+      options: [citizen web, responder queue, district console, API, risk engine, notifications, seed data, docs]
+    validations: { required: true }
+  - type: input
+    id: env
+    attributes:
+      label: Environment
+      description: OS, Python and Node versions, SQLite or Postgres, SMS_PROVIDER value
+      placeholder: Windows 11, Python 3.13, Node 20, SQLite, SMS_PROVIDER=console
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or the error correlation id
+      render: shell
