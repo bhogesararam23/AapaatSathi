@@ -87,6 +87,16 @@ Open **http://localhost:5173** · interactive API at **http://localhost:8000/doc
 Windows users can run both at once with
 `powershell -ExecutionPolicy Bypass -File .\scripts\dev.ps1`.
 
+### Production Deployment with Docker
+
+To run the application in a production-ready environment, you can use Docker Compose:
+
+```bash
+docker compose up --build
+```
+
+This will build and start the backend on port 8000 and the frontend on port 4173.
+
 <details>
 <summary><strong>If <code>import sqlalchemy.ext.asyncio</code> fails with "An Application Control policy has blocked this file"</strong></summary>
 
