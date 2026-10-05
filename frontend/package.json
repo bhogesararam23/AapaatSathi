@@ -27,15 +27,16 @@
     "recharts": "^2.12.7"
   },
   "devDependencies": {
+    "@types/node": "^22.7.0",
     "@types/react": "^18.3.8",
     "@types/react-dom": "^18.3.0",
-    "@types/node": "^22.7.0",
     "@vitejs/plugin-react": "^4.3.1",
     "autoprefixer": "^10.4.20",
     "eslint": "^8.57.1",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.13",
     "typescript": "^5.6.2",
-    "vite": "^5.4.7"
+    "vite": "^5.4.7",
+    "vite-plugin-pwa": "^2.0.0"
   }
 }
